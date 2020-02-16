@@ -1,0 +1,61 @@
+.container {
+background-color: azure;
+padding: 5rem;
+font-family: 'Courier New', Courier, monospace;
+
+}
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form label {
+    font-size: 3rem;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+    color: rgb(119, 73, 73);
+}
+.form button {
+    padding: 1.2rem;
+width: 10rem;
+border-radius: 1rem;
+font-size: 1.1rem;
+color: rgb(243, 237, 237);
+background-color: rgb(133, 69, 69);
+transition: all .3s;
+outline: none;
+}
+
+.form button:active,
+.form button:visited,
+.form button:hover {
+    transform: translateY(-3px);
+}
+
+
+
+.input {
+    background-color: rgb(52, 59, 48);
+    padding: 1rem;
+    width: 30rem;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    font-size: 1.2rem;
+    color: rgb(243, 237, 237);
+    margin-bottom: 2rem;
+
+}
+
+.todoList {
+    margin-top: 3rem;
+    list-style: none;
+    
+}
+
+.todo {
+    font-size: 2rem;
+    font-weight: 700;
+    cursor: pointer;
+}
