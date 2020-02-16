@@ -51,11 +51,31 @@ outline: none;
 .todoList {
     margin-top: 3rem;
     list-style: none;
-    
+    display: block;
+    width: 100%;
 }
 
 .todo {
     font-size: 2rem;
     font-weight: 700;
     cursor: pointer;
+    
+}
+
+.checkbox {
+    display: inline;
+    width: auto;
+    padding: 20px;
+}
+
+form .del-Button {
+    background-color: rgb(10, 8, 8);
+    width: 20%;
+    margin-left: 20rem;
+    padding: .5rem;
+
+}
+
+.done {
+    text-decoration: line-through;
 }
