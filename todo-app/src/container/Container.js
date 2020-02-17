@@ -1,75 +1,68 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import AddTodo from "../components/AddTodo/AddTodo";
 import List from "../components/List/List";
-import './Container.css'
+import "./Container.css";
 
-const intialState = {
-  todos: []
+//REDUCER
+
+const todoReducer = (currentTodoList, action) => {
+  switch (action.type) {
+    case "ADDTODO":
+      return [
+        ...currentTodoList,
+        { id: Date.now(), done: false, text: action.value }
+      ];
+    case "DELETETODO":
+      return [...currentTodoList].filter(
+        todo => todo.id !== action.value
+      );
+    case "TOGGLECHANGE":
+      const newTodos = [...currentTodoList];
+      newTodos[action.indexTodo] = { ...newTodos[action.indexTodo] };
+      newTodos[action.indexTodo].done = action.event.target.checked;
+      return newTodos;
+
+    case "ALLDONE":
+      return currentTodoList.map(todo => {
+        return {
+          ...todo,
+          done: true
+        };
+      });
+  }
+  return currentTodoList;
 };
 
-const Container = () => {
-  const [input, setInput] = useState(intialState);
-  const [value, setValue] = useState("");
+////////////INTIAL STATE
 
-  const handleChange = e => {
-    setValue(e.target.value);
-  };
+
+const Container = () => {
+  const [input, dispatchTodo] = useReducer(todoReducer, []);
+
   const addTodo = val => {
-    const newTodos = [
-      ...input.todos,
-      { id: Date.now(), done: false, text: val }
-    ];
-    setInput({
-      todos: newTodos
-    });
+    dispatchTodo({ type: "ADDTODO", value: val });
   };
 
   const removeTodo = id => {
-    const newTodos = [...input.todos];
-    const finalTodos = newTodos.filter(todo => todo.id !== id);
-    setInput({
-      todos: finalTodos
-    });
-  };
-
-  const formSubmitted = event => {
-    event.preventDefault();
-    if (!value) return;
-    addTodo(value);
-    setValue("");
+    dispatchTodo({ type: "DELETETODO", value: id });
   };
 
   const toggleChange = (e, index) => {
-    const newTodos = [...input.todos];
-    newTodos[index] = { ...newTodos[index] };
-    newTodos[index].done = e.target.checked;
-    setInput({
-      todos: newTodos
-    });
-    console.log(newTodos);
+    dispatchTodo({ type: "TOGGLECHANGE", indexTodo: index, event: e });
   };
 
   const allDone = () => {
-    const todos = input.todos.map(todo => {
-      return {
-        ...todo,
-        done: true
-      };
-    });
-
-    setInput({
-      todos
-    });
+    dispatchTodo({ type: "ALLDONE" });
   };
+
   return (
     <div className="App">
-      <List input={input} toggleChangeHandler={toggleChange} removeTodoHandler={removeTodo}/>
-      <AddTodo
-        submit={formSubmitted}
-        changeHandler={handleChange}
-        doneHandler={allDone}
-        valueHandler={value}
+      <List
+        displayList={input}
+        toggleChangeHandler={toggleChange}
+        removeTodoHandler={removeTodo}
       />
+      <AddTodo addHandler={addTodo} doneHandler={allDone} />
     </div>
   );
 };
